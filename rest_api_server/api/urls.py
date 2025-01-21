@@ -1,6 +1,7 @@
 from django.urls import path
 from api.views.file_views import FileUploadView, FileUploadChunksView,  ConvertCsvToXmlView, AddCoordinatesToCsvView, CreateTablesAndInsertDataView, GetSalesByCountryView, ListProfitableProductsView, CalculateDiscountedSalesView, GetSalesByGenderView
 from .views.users import GetAllUsers
+from .views.locations import GetAllLocations
 
 urlpatterns = [
     path('upload-file/', FileUploadView.as_view(), name='uploadfile'),
@@ -12,6 +13,6 @@ urlpatterns = [
     path('get-sales-by-country/', GetSalesByCountryView.as_view(), name='get_sales_by_country'),
     path('list-profitable-products/', ListProfitableProductsView.as_view(), name='list-profitable-products'),
     path("calculate-discounted-sales/", CalculateDiscountedSalesView.as_view(), name="calculate_discounted_sales"),
-    path('sales-by-gender/', GetSalesByGenderView.as_view(), name='sales_by_gender'),    
-
+    path('sales-by-gender/', GetSalesByGenderView.as_view(), name='sales_by_gender'),
+    path('get_locations/', GetAllLocations.as_view(), name='locations'),
 ]

@@ -5,30 +5,10 @@ export async function POST(req: NextRequest) {
 
     const city          = request_body?.search ?? ''
 
-    return NextResponse.json({
-        "data": {
-            "cities": [
-                {
-                    "nome": "Abadia de Goiás",
-                    "latitude": -16.7573,
-                    "longitude": -49.4412,
-                    "id": "645755"
-                },
-                {
-                    "nome": "Abadia dos Dourados",
-                    "latitude": -18.4831,
-                    "longitude": -47.3916,
-                    "id": "645756"
-                },
-                {
-                    "nome": "Sítio d'Abadia",
-                    "latitude": -14.7992,
-                    "longitude": -46.2506,
-                    "id": "650821"
-                }
-            ]
-        }
-    }) 
+    const res = await fetch('http://rest-api-server:8000/api/get_locations/');
+    const result = await res.json();
+    console.log(result)
+    return NextResponse.json(result) 
 
     const headers = {
         'content-type': 'application/json',
