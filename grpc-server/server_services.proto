@@ -1,0 +1,147 @@
+syntax = "proto3";
+
+package server_services;
+
+// Messages for the SendFile service
+
+// Request message for sending a complete file
+message SendFileRequestBody {
+  bytes file = 1;           // DTD file as bytes
+  string file_mime = 2;     // MIME type of the file
+  string file_name = 3;     // Name of the file
+}
+
+// Response message for file upload
+message SendFileResponseBody {
+  bool success = 1;         // Indicates if the upload was successful
+}
+
+// Request message for sending file chunks
+message SendFileChunksRequest {
+  bytes data = 1;           // A chunk of the file
+  string file_name = 2;     // File name (optional, sent in the first chunk or metadata)
+}
+
+// Response message for file chunks upload
+message SendFileChunksResponse {
+  bool success = 1;         // Indicates if the upload was successful
+  string message = 2;       // Additional status message
+}
+
+message ConvertCsvToXmlRequest {
+    string csv_file_name = 1;  // Nome do arquivo CSV no Docker volume
+}
+
+message ConvertCsvToXmlResponse {
+    bool success = 1;          // Status da operação
+    string message = 2;        // Mensagem de erro ou sucesso
+    string xml_file_name = 3;  // Caminho do arquivo XML gerado
+}
+
+message AddCoordinatesToCsvRequest {
+    string csv_file_name = 1;
+}
+
+message AddCoordinatesToCsvResponse {
+    bool success = 1;
+    string message = 2;
+    string updated_csv_file_name = 3; // Nome do arquivo CSV atualizado
+}
+
+message CreateTablesAndInsertDataRequest {}
+
+message CreateTablesAndInsertDataResponse {
+    bool success = 1;
+    string message = 2;
+}
+
+message SalesByCountry {
+  string country = 1;
+  double total_sales = 2;
+}
+
+message GetSalesByCountryRequest {}
+
+message GetSalesByCountryResponse {
+  repeated SalesByCountry sales_by_country = 1;
+}
+
+// Message para representar os detalhes do produto
+message ProductDetails {
+  string name = 1;
+  string category = 2;
+  string sub_category = 3;
+}
+
+// Request para listar produtos lucrativos
+message ListProfitableProductsRequest {
+  double profit_threshold = 1;  // Limite de lucro
+  string date = 2;              // Data (formato: YYYY-MM-DD)
+}
+
+// Response para listar produtos lucrativos
+message ListProfitableProductsResponse {
+  bool success = 1;                 // Status da operação
+  string message = 2;               // Mensagem de erro ou sucesso
+  repeated ProductDetails products = 3; // Lista de produtos encontrados
+}
+
+message SaleInfo {
+  string City = 1;
+  float Discount = 2;
+  int32 OrderQuantity = 3;
+  float Revenue = 4;
+  float UnitPrice = 5;
+  int32 CustomerAge = 6;
+  string CustomerGender = 7;
+  string Date = 8;
+}
+
+message CalculateDiscountedSalesResponse {
+  bool success = 1;
+  string error_message = 2;
+  repeated SaleInfo sales = 3;  // Lista de vendas com descontos
+}
+
+message CalculateDiscountedSalesRequest {
+  double discount_rate = 1;       // Taxa de desconto (exemplo: 0.1 para 10%)
+  string start_date = 2;          // Data de início (formato: YYYY-MM-DD)
+  string end_date = 3;            // Data de fim (formato: YYYY-MM-DD)
+}
+
+message GetSalesByGenderRequest {
+    int32 min_age = 1; // Idade mínima
+    int32 max_age = 2; // Idade máxima
+}
+
+message GetSalesByGenderResponse {
+    bool success = 1;          // Indica se a operação foi bem-sucedida
+    string message = 2;        // Mensagem de erro (se houver)
+    int32 total_sales_m = 3;   // Total de vendas de clientes do gênero masculino
+    int32 total_sales_f = 4;   // Total de vendas de clientes do gênero feminino
+}
+
+
+// Service definition for file upload
+service SendFileService {
+  // RPC for sending a complete file
+  rpc SendFile (SendFileRequestBody) returns (SendFileResponseBody);
+
+  // RPC for sending file chunks as a stream
+  rpc SendFileChunks (stream SendFileChunksRequest) returns (SendFileChunksResponse);
+
+  rpc ConvertCsvToXml (ConvertCsvToXmlRequest) returns (ConvertCsvToXmlResponse);
+
+  rpc AddCoordinatesToCsv (AddCoordinatesToCsvRequest) returns (AddCoordinatesToCsvResponse);  
+  
+  rpc CreateTablesAndInsertData (CreateTablesAndInsertDataRequest) returns (CreateTablesAndInsertDataResponse);
+
+  rpc GetSalesByCountry (GetSalesByCountryRequest) returns (GetSalesByCountryResponse);
+  
+  rpc ListProfitableProducts (ListProfitableProductsRequest) returns (ListProfitableProductsResponse);
+
+  rpc CalculateDiscountedSales (CalculateDiscountedSalesRequest) returns (CalculateDiscountedSalesResponse);
+
+  rpc GetSalesByGender (GetSalesByGenderRequest) returns (GetSalesByGenderResponse);
+
+}

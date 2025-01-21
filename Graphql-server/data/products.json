@@ -1,0 +1,10 @@
+[
+  {
+    "id": 1,
+    "name": "Laptop",
+    "category": "Electronics",
+    "sub_category": "Computers",
+    "unit_cost": 500.00,
+    "unit_price": 700.00
+  }
+]

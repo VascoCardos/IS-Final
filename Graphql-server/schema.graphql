@@ -1,0 +1,38 @@
+type Location {
+  id: ID! # Primary Key
+  country: String
+  state: String
+  latitude: Float
+  longitude: Float
+  sales: [Sale]
+}
+
+type Product {
+  id: ID! # Primary Key
+  name: String
+  category: String
+  subCategory: String
+  unitCost: Float
+  unitPrice: Float
+  sales: [Sale]
+}
+
+type Sale {
+  id: ID! # Primary Key
+  saleDate: String
+  customerAge: Int
+  customerGender: String
+  orderQuantity: Int
+  profit: Float
+  cost: Float
+  revenue: Float
+}
+
+type Query {
+  locations: [Location]
+  location(id: ID!): Location
+  products: [Product]
+  product(id: ID!): Product
+  sales: [Sale]
+  sale(id: ID!): Sale
+}

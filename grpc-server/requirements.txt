@@ -1,0 +1,7 @@
+grpcio
+grpcio-tools
+pg8000
+pika==1.2.0
+pandas
+lxml
+geopy

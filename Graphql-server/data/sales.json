@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "product_id": 1,
+    "location_id": 1,
+    "sale_date": "2025-01-01",
+    "customer_age": 30,
+    "customer_gender": "Male",
+    "order_quantity": 1,
+    "profit": 200.00,
+    "cost": 500.00,
+    "revenue": 700.00
+  }
+]

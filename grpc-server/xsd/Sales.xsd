@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+
+    <xs:element name="Sales">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="Location" maxOccurs="unbounded">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="Product" maxOccurs="unbounded">
+                                <xs:complexType>
+                                    <xs:sequence>
+                                        <xs:element name="Sale" maxOccurs="unbounded">
+                                            <xs:complexType>
+                                                <xs:sequence>
+                                                    <xs:element name="CustomerAge" type="xs:int"/>
+                                                    <xs:element name="CustomerGender" type="xs:string"/>
+                                                    <xs:element name="OrderQuantity" type="xs:int"/>
+                                                    <xs:element name="Profit" type="xs:decimal"/>
+                                                    <xs:element name="Cost" type="xs:decimal"/>
+                                                    <xs:element name="Revenue" type="xs:decimal"/>
+                                                </xs:sequence>
+                                                <xs:attribute name="Date" type="xs:date" use="required"/>
+                                            </xs:complexType>
+                                        </xs:element>
+                                    </xs:sequence>
+                                    <xs:attribute name="Name" type="xs:string" use="required"/>
+                                    <xs:attribute name="Category" type="xs:string" use="required"/>
+                                    <xs:attribute name="SubCategory" type="xs:string" use="required"/>
+                                    <xs:attribute name="UnitCost" type="xs:decimal" use="required"/>
+                                    <xs:attribute name="UnitPrice" type="xs:decimal" use="required"/>
+                                </xs:complexType>
+                            </xs:element>
+                        </xs:sequence>
+                        <xs:attribute name="Country" type="xs:string" use="required"/>
+                        <xs:attribute name="State" type="xs:string" use="required"/>
+                        <xs:attribute name="Latitude" type="xs:decimal" use="required"/>
+                        <xs:attribute name="Longitude" type="xs:decimal" use="required"/>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
