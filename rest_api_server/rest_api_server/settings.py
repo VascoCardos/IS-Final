@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+ALLOWED_HOSTS = ['rest-api-server', 'localhost', '127.0.0.1', 'your-ip-address', 'frontend']  # Adicione 'rest-api-server' e outros, se necessário
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',

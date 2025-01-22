@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
     }
 
     try{
-        const promise = await fetch(`${process.env.REST_API_BASE_URL}/api/upload-file/by-chunks`, requestOptions)
+        const promise = await fetch(`http://rest-api-server:8000/api/upload-file/by-chunks`, requestOptions)
 
         if(!promise.ok){
             return NextResponse.json({status: promise.status, message: promise.statusText}, { status: promise.status }) 

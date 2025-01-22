@@ -1,14 +1,54 @@
 import { NextRequest, NextResponse } from "next/server";
 
+interface City {
+    nome: string;
+    latitude: number;
+    longitude: number;
+    id: number;
+}
+
+let cachedCities: City[] = [];  // Definindo o tipo de cachedCities como um array de City
+
+// Função para fazer a requisição e obter os dados
+async function fetchCityData() {
+    try {
+        // Use o nome do serviço Docker em vez de localhost ou host.docker.internal
+        const response = await fetch("http://rest-api-server:8000/api/get_locations/");
+        
+        // Verifica se a requisição foi bem-sucedida
+        if (!response.ok) {
+            throw new Error("Failed to fetch city data");
+        }
+        
+        // Converte a resposta em JSON
+        const data = await response.json();
+        
+        // Armazena os dados na variável
+        cachedCities = data?.cities ?? [];
+        console.log("City data fetched:", cachedCities);
+    } catch (error) {
+        console.error("Error fetching city data:", error);
+    }
+}
+
+
+fetchCityData();
+
 export async function POST(req: NextRequest) {
     const request_body  = await req.json()
 
     const city          = request_body?.search ?? ''
 
-    const res = await fetch('http://rest-api-server:8000/api/get_locations/');
-    const result = await res.json();
-    console.log(result)
-    return NextResponse.json(result) 
+    const citiesToReturn = cachedCities.filter((cityItem) => 
+        cityItem.nome.toLowerCase().includes(city.toLowerCase())
+    );
+
+    // Retorna os dados filtrados
+    return NextResponse.json({
+        data: {
+            cities: citiesToReturn,
+        }
+    });
 
     const headers = {
         'content-type': 'application/json',

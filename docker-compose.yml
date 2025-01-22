@@ -24,10 +24,12 @@ services:
     depends_on:
       - db
       - rabbitmq
+    networks:
+      - mynetwork  
 
   rest-api-server:
     build: ./rest_api_server
-    container_name: rest_api_server
+    container_name: rest-api-server
     ports:
       - "8000:8000"
     environment:
@@ -41,6 +43,9 @@ services:
     depends_on:
       - db
       - grpc-server
+    networks:
+      - mynetwork
+      
 
   db:
     image: postgres:latest
@@ -53,6 +58,8 @@ services:
       - "5432:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
+    networks:
+      - mynetwork  
 
   rabbitmq:
     image: rabbitmq:3.9-management
@@ -63,6 +70,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: user
       RABBITMQ_DEFAULT_PASS: password
+    networks:
+      - mynetwork  
 
   worker:
     build: ./worker-rabbit-csv
@@ -83,6 +92,8 @@ services:
       - rabbitmq
       - db
       - grpc-server
+    networks:
+      - mynetwork  
 
 
   graphql-server:
@@ -98,25 +109,29 @@ services:
       - DBPORT=5432
     depends_on:
       - db  # O graphql-server depende do db estar pronto antes de iniciar
+    networks:
+      - mynetwork  
   
   frontend:
     build:
-      context: ./frontend  # Caminho para o diretório do Dockerfile do frontend
+      context: ./frontend
     container_name: frontend
     ports:
-      - "3000:3000"  # Mapeando a porta 3000 do container para a porta 3000 do host
+      - "3000:3000"
     environment:
-      - REACT_APP_GRAPHQL_API=http://localhost:5000/graphql  # Endereço do servidor GraphQL
+      - REACT_APP_GRAPHQL_API=http://localhost:5000/graphql
     depends_on:
-      - graphql-server  # O frontend depende do GraphQL server
+      - graphql-server
+      - rest-api-server
+    networks:
+      - mynetwork
       
-  
-  
-
-
-      
-
   
 volumes:
   grpc-server:
   pgdata:
+
+
+networks:
+  mynetwork:
+    driver: bridge
